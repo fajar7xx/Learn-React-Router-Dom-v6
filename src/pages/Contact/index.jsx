@@ -1,7 +1,41 @@
+import { useEffect } from 'react';
+import { useContacts } from '../../hooks/useContacts.js';
+
 const Contact = () => {
-	return(
+	const {
+		contacts,
+		loading,
+		error,
+		loadContacts,
+		addContact,
+		updateContact,
+		deleteContact
+	} = useContacts();
+
+	useEffect(() => {
+		loadContacts();
+	}, [loadContacts]);
+
+	if (loading) return <div>Loading.....</div>;
+	if (error) return <div>Error: {error.message}</div>;
+
+	return (
 		<>
-			<h1>ini contact detail</h1>
+			<div>
+				<h1>Contacts</h1>
+				<button onClick={addContact}>Add Contact</button>
+
+				<div>
+					{contacts.map(contact => (
+						<div key={contact.id}>
+							<span>{contact.first} {contact.last}</span>
+							<button onClick={() => deleteContact(contact.id)}>
+								Delete
+							</button>
+						</div>
+					))}
+				</div>
+			</div>
 		</>
 	);
 };

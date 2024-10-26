@@ -1,7 +1,9 @@
+import AppRouter from './routes/index.jsx';
+
 const App = () => {
 	return (
 		<>
-			<h1>INI testing</h1>
+			<AppRouter />
 		</>
 	);
 };
