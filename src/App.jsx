@@ -4,31 +4,31 @@ import viteLogo from '/vite.svg';
 import './App.css';
 
 const App = () => {
-  const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('');
+	const [count, setCount] = useState(0);
+	const [title, setTitle] = useState('');
 
-  useEffect(() => {
-    setTitle('Vite + React Router Dom');
-  }, []); // Empty dependency array means this runs once on mount
+	// useEffect(() => {
+	// 	setTitle('Vite + React Router Dom');
+	// }, []); // Empty dependency array means this runs once on mount
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>{title}</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-        </button>
-      </div>
-    </>
-  );
+	return (
+		<>
+			<div>
+				<a href="https://vite.dev" target="_blank">
+					<img src={viteLogo} className="logo" alt="Vite logo" />
+				</a>
+				<a href="https://react.dev" target="_blank">
+					<img src={reactLogo} className="logo react" alt="React logo" />
+				</a>
+			</div>
+			<h1>title</h1>
+			<div className="card">
+				<button onClick={() => setCount((count) => count + 1)}>
+					count is {count}
+				</button>
+			</div>
+		</>
+	);
 };
 
 export default App;

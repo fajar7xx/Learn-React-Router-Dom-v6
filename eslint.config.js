@@ -8,7 +8,6 @@ import prettier from 'eslint-config-prettier';
 export default [
   {
     ignores: [
-      // React template ignores
       '.DS_*',
       '*.log',
       'logs',
@@ -26,7 +25,7 @@ export default [
     ]
   },
   {
-    files: ['**/*.{js,jsx}'],
+    files: ['src/**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2021,
       globals: globals.browser,
@@ -36,7 +35,11 @@ export default [
         sourceType: 'module'
       }
     },
-    settings: { react: { version: 'detect' } },
+    settings: {
+      react: {
+        version: 'detect'
+      }
+    },
     plugins: {
       react,
       'react-hooks': reactHooks,
@@ -48,21 +51,24 @@ export default [
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
       ...prettier.rules,
-      'react/jsx-no-target-blank': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true }
-      ],
-
-      // code style rules
+      'indent': ['error', 'tab', {
+        "SwitchCase": 1,
+        "ignoredNodes": ["JSXElement *"]
+      }],
+      'react/jsx-indent': ['error', 'tab'],
+      'react/jsx-indent-props': ['error', 'tab'],
       'semi': ['error', 'always'],
       'quotes': ['error', 'single'],
-      'indent': ['error', 2],
       'comma-dangle': ['error', 'never'],
       'no-unused-vars': 'warn',
       'no-console': 'warn',
       'no-debugger': 'warn',
-      'no-undef': 'off'
+      'no-undef': 'off',
+      'react/jsx-no-target-blank': 'off',
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true }
+      ]
     }
   }
 ];
