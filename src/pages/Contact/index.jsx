@@ -1,42 +1,75 @@
-import { useEffect } from 'react';
-import { useContacts } from '../../hooks/useContacts.js';
+import { Form } from 'react-router-dom';
+import FavoriteContact from './components/FavoriteContact.jsx';
 
 const Contact = () => {
-	const {
-		contacts,
-		loading,
-		error,
-		loadContacts,
-		addContact,
-		updateContact,
-		deleteContact
-	} = useContacts();
-
-	useEffect(() => {
-		loadContacts();
-	}, [loadContacts]);
-
-	if (loading) return <div>Loading.....</div>;
-	if (error) return <div>Error: {error.message}</div>;
+	const contact = {
+		first: 'Your',
+		last: 'Name',
+		avatar: 'https://robohash.org/you.png?size=200x200',
+		twitter: 'your_handle',
+		notes: 'Some notes',
+		favorite: true
+	};
 
 	return (
-		<>
+		<div id="contact">
 			<div>
-				<h1>Contacts</h1>
-				<button onClick={addContact}>Add Contact</button>
+				<img
+					key={contact.avatar}
+					src={
+						contact.avatar ||
+						`https://robohash.org/${contact.id}.png?size=200x200`
+					}
+				/>
+			</div>
+
+			<div>
+				<h1>
+					{contact.first || contact.last ? (
+						<>
+							{contact.first} {contact.last}
+						</>
+					) : (
+						<i>No Name</i>
+					)}{' '}
+					<FavoriteContact contact={contact} />
+				</h1>
+
+				{contact.twitter && (
+					<p>
+						<a
+							target="_blank"
+							href={`https://twitter.com/${contact.twitter}`}
+						>
+							{contact.twitter}
+						</a>
+					</p>
+				)}
+
+				{contact.notes && <p>{contact.notes}</p>}
 
 				<div>
-					{contacts.map(contact => (
-						<div key={contact.id}>
-							<span>{contact.first} {contact.last}</span>
-							<button onClick={() => deleteContact(contact.id)}>
-								Delete
-							</button>
-						</div>
-					))}
+					<Form action="edit">
+						<button type="submit">Edit</button>
+					</Form>
+					<Form
+						method="post"
+						action="destroy"
+						onSubmit={(event) => {
+							if (
+								!confirm(
+									'Please confirm you want to delete this record.'
+								)
+							) {
+								event.preventDefault();
+							}
+						}}
+					>
+						<button type="submit">Delete</button>
+					</Form>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

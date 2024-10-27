@@ -63,6 +63,7 @@ export const useContacts = () => {
 		loadContacts,
 		addContact,
 		updateContact,
-		deleteContact
+		deleteContact,
+		getDefaultContact: contactsService.getDefaultContact
 	};
 };

@@ -8,21 +8,22 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
-    "lint": "eslint src --fix",
+    "lint": "eslint src/**/*.{js,jsx} --fix",
     "preview": "vite preview",
     "prepare": "husky",
     "test": "echo \"No test specified\""
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "pnpm run lint"
+    "src/**/*.{js,jsx}": [
+      "eslint --fix"
     ]
   },
   "dependencies": {
     "localforage": "^1.10.0",
     "match-sorter": "^7.0.0",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
