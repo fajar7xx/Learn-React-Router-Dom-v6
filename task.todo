@@ -4,6 +4,7 @@ isi materi yang bisa kita pakai:
 - lanjut kesini https://reactrouter.com/en/main/start/tutorial#data-writes--html-forms masih salah beberapa bagian. coba di perbaiki lagi
 - lanjut kesini https://reactrouter.com/en/main/start/tutorial#active-link-styling
 - lanjut kesini https://reactrouter.com/en/main/start/tutorial#cancel-button
+- lanjut sini https://reactrouter.com/en/main/start/tutorial#submitting-forms-onchange (permaslahan saat search harus bisa auto update dan mencegah terjadi hit setiap satu karakter di input)
 
 
 resource atau dokumen

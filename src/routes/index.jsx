@@ -9,9 +9,12 @@ const ContactEdit = lazy(() => import('../pages/Contact/edit'));
 const ContactDetail = lazy(() => import('../pages/Contact/detail'));
 
 // loader
-export const rootLoader = async () => {
-	const contacts = await contactService.getAll();
-	return { contacts };
+export const rootLoader = async ({ request }) => {
+	console.log(`request ${request}`);
+	const url = new URL(request.url);
+	const searchQuery = url.searchParams.get('q');
+	const contacts = await contactService.getAll(searchQuery);
+	return { contacts, searchQuery };
 };
 
 export const rootAction = async () => {

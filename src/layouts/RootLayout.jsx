@@ -1,11 +1,32 @@
 // global layout
-import { Form, Link, Outlet, useLoaderData, useNavigation } from 'react-router-dom';
+import { Form, Link, Outlet, useLoaderData, useNavigation, useSubmit } from 'react-router-dom';
 import ContactList from '../pages/Contact/components/ContactList';
+import { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 
 const Root = () => {
-	const { contacts } = useLoaderData();
+	const { contacts, searchQuery } = useLoaderData();
 	console.log('loader data', contacts);
 	const navigation = useNavigation();
+	const submit = useSubmit();
+	const [searchText, setSearchText] = useState(searchQuery || '');
+
+	useEffect(() => {
+		document.getElementById('q').value = searchQuery;
+	}, [searchQuery]);
+
+	const debounceSubmit = debounce((form) => {
+		submit(form);
+	}, 500);
+
+	const handleSearch = (e) => {
+		const value = e.target.value;
+		setSearchText(value);
+
+		if (value >= 3) {
+			debounceSubmit(e.currentTarget.form);
+		}
+	};
 
 	return (
 		<>
@@ -23,6 +44,8 @@ const Root = () => {
 							placeholder="Search"
 							type="search"
 							name="q"
+							value={searchText}
+							onChange={handleSearch}
 						/>
 						<div
 							id="search-spinner"
@@ -34,7 +57,7 @@ const Root = () => {
 							aria-live="polite"
 						></div>
 					</Form>
-					<Form method='post'>
+					<Form method="post">
 						<button type="submit">New</button>
 					</Form>
 				</div>

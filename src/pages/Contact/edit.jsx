@@ -1,8 +1,9 @@
-import { Form, useLoaderData } from 'react-router-dom';
+import { Form, useLoaderData, useNavigate } from 'react-router-dom';
 import './styles/editcontact.css';
 
 const ContactEdit = () => {
 	const { contact } = useLoaderData();
+	const navigate = useNavigate();
 
 	return (
 		<Form method="post" id="contact-form" className="contact-form">
@@ -71,7 +72,14 @@ const ContactEdit = () => {
 
 			<div className="button-group">
 				<button type="submit" className="btn">Save</button>
-				<button type="button" className="btn">Cancel</button>
+				<button
+					type="button"
+					className="btn"
+					onClick={() => {
+						navigate(-1);
+					}}
+				>Cancel
+				</button>
 			</div>
 		</Form>
 	);
