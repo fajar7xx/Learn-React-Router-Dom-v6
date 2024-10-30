@@ -1,13 +1,21 @@
-import { Link, Outlet, useLoaderData } from 'react-router-dom';
-import { getContacts } from '../services/contacts.js';
+// global layout
+import { Form, Link, Outlet, useLoaderData } from 'react-router-dom';
+import ContactList from '../pages/Contact/components/ContactList';
+// import { getContacts } from '../services/contact.js';
 
 
 const Root = () => {
 	const { contacts } = useLoaderData();
+	console.log('loader data', contacts);
+
 	return (
 		<>
 			<div id="sidebar">
-				<h1>React Router Contacts</h1>
+				<h1>
+					<Link to="/">
+						Contact
+					</Link>
+				</h1>
 				<div>
 					<form id="search-form" role="search">
 						<input
@@ -32,27 +40,7 @@ const Root = () => {
 					</form>
 				</div>
 				<nav>
-					{contacts.length ? (
-						<ul>
-							{contacts.map((contact) => (
-								<li key={contact.id}>
-									<Link to={`/contacts/${contact.id}`}>
-										{contact.first || contact.last ? (
-											<>{contact.first} {contact.last}</>
-											) :
-											(
-												<i>No Name</i>
-											)}{' '}
-										{contact.favorite && <span>*</span>}
-									</Link>
-								</li>
-							))}
-						</ul>
-					) : (
-						<p>
-							<i>No contacts</i>
-						</p>
-					)}
+					<ContactList contacts={contacts} />
 				</nav>
 			</div>
 			<div id="detail">

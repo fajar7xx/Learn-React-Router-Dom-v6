@@ -1,13 +1,15 @@
 import { lazy } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import RootLayout from '../layouts/RootLayout.jsx';
-import NotFound from '../components/common/NotFound.jsx';
-import { getContacts } from '../services/contacts.js';
+import { createBrowserRouter, redirect, RouterProvider } from 'react-router-dom';
+import RootLayout from '../layouts/RootLayout';
+import NotFound from '../components/common/NotFound';
+import {contactService} from '../services/contact';
 
 const Contact = lazy(() => import('../pages/Contact'));
+// const ContactEdit = lazy(() => import('../pages/Contact/edit.jsx'));
 
-const contactLoader = async () => {
-	const contacts = await getContacts();
+// loader
+export const rootLoader = async() => {
+	const contacts = await contactService.getAll();
 	return { contacts };
 };
 
@@ -16,15 +18,14 @@ const router = createBrowserRouter([
 		path: '/',
 		element: <RootLayout />,
 		errorElement: <NotFound />,
-		loader: contactLoader,
+		loader: rootLoader,
 		children: [
 			{
-				path: '/contacts/:contactId',
+				path: 'contacts/:contactId',
 				element: <Contact />
 			}
 		]
 	}
-
 ]);
 
 const AppRouter = () => {

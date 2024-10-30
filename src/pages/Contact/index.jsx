@@ -1,5 +1,5 @@
 import { Form } from 'react-router-dom';
-import FavoriteContact from './components/FavoriteContact.jsx';
+import ContactFavorite from './components/ContactFavorite';
 
 const Contact = () => {
 	const contact = {
@@ -11,15 +11,20 @@ const Contact = () => {
 		favorite: true
 	};
 
+	const handleDelete = (e) => {
+		console.log('handleDelete');
+		if (!confirm('Please confirm you want to delete this record.')) {
+			e.preventDefault();
+		}
+	};
+
 	return (
 		<div id="contact">
 			<div>
 				<img
 					key={contact.avatar}
-					src={
-						contact.avatar ||
-						`https://robohash.org/${contact.id}.png?size=200x200`
-					}
+					src={contact.avatar || `https://robohash.org/${contact.id}.png?size=200x200`}
+					alt={`${contact.first} ${contact.last}`}
 				/>
 			</div>
 
@@ -32,7 +37,7 @@ const Contact = () => {
 					) : (
 						<i>No Name</i>
 					)}{' '}
-					<FavoriteContact contact={contact} />
+					<ContactFavorite contact={contact} />
 				</h1>
 
 				{contact.twitter && (
@@ -40,6 +45,7 @@ const Contact = () => {
 						<a
 							target="_blank"
 							href={`https://twitter.com/${contact.twitter}`}
+							rel="noopener noreferrer"
 						>
 							{contact.twitter}
 						</a>
@@ -55,15 +61,7 @@ const Contact = () => {
 					<Form
 						method="post"
 						action="destroy"
-						onSubmit={(event) => {
-							if (
-								!confirm(
-									'Please confirm you want to delete this record.'
-								)
-							) {
-								event.preventDefault();
-							}
-						}}
+						onSubmit={handleDelete}
 					>
 						<button type="submit">Delete</button>
 					</Form>
