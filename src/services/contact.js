@@ -32,12 +32,13 @@ export const contactService = {
 		await fakeNetwork();
 		const contact = {
 			id : Math.random().toString(36).substring(2, 9),
+			favorite: false,
 			createdAt: Date.now()
 		};
 
-		const contacts = await contact.getAll();
+		const contacts = await contactService.getAll();
 		contacts.unshift(contact);
-		await contact._set(contacts);
+		await contactService._set(contacts);
 
 		return contact;
 	},
@@ -52,7 +53,7 @@ export const contactService = {
 		}
 
 		Object.assign(contact, payload);
-		await contact._set(contacts);
+		await contactService._set(contacts);
 
 		return contact;
 	},
@@ -63,7 +64,7 @@ export const contactService = {
 
 		if(index > -1){
 			contacts.splice(index, 1);
-			await contact._set(contacts);
+			await contactService._set(contacts);
 			return true;
 		}
 		return false;

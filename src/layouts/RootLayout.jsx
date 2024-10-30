@@ -17,7 +17,7 @@ const Root = () => {
 					</Link>
 				</h1>
 				<div>
-					<form id="search-form" role="search">
+					<Form id="search-form" role="search">
 						<input
 							id="q"
 							aria-label="Search contacts"
@@ -34,10 +34,10 @@ const Root = () => {
 							className="sr-only"
 							aria-live="polite"
 						></div>
-					</form>
-					<form method="post">
+					</Form>
+					<Form method='post'>
 						<button type="submit">New</button>
-					</form>
+					</Form>
 				</div>
 				<nav>
 					<ContactList contacts={contacts} />
