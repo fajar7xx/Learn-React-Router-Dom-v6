@@ -1,12 +1,11 @@
 // global layout
-import { Form, Link, Outlet, useLoaderData } from 'react-router-dom';
+import { Form, Link, Outlet, useLoaderData, useNavigation } from 'react-router-dom';
 import ContactList from '../pages/Contact/components/ContactList';
-// import { getContacts } from '../services/contact.js';
-
 
 const Root = () => {
 	const { contacts } = useLoaderData();
 	console.log('loader data', contacts);
+	const navigation = useNavigation();
 
 	return (
 		<>
@@ -43,7 +42,12 @@ const Root = () => {
 					<ContactList contacts={contacts} />
 				</nav>
 			</div>
-			<div id="detail">
+			<div
+				id="detail"
+				className={
+					navigation.state === 'loading' ? 'loading' : ''
+				}
+				>
 				<Outlet />
 			</div>
 		</>

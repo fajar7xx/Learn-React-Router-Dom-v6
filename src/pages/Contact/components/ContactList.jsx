@@ -1,7 +1,14 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const ContactList = ({ contacts }) => {
+	const getNavLinkClass = (isActive, isPending) => {
+		if (isActive) return 'active';
+		if (isPending) return 'pending';
+		return '';
+	};
+
+
 	if (!contacts.length) {
 		return <p>
 			<i>No Contacts</i>
@@ -12,10 +19,15 @@ const ContactList = ({ contacts }) => {
 		<ul>
 			{contacts.map(({ id, first, last, favorite }) => (
 				<li key={id}>
-					<Link to={`contacts/${id}`}>
+					<NavLink
+						to={`contacts/${id}`}
+						className={
+							({ isActive, isPending }) => getNavLinkClass(isActive, isPending)
+						}
+					>
 						{first || last ? `${first || ''} ${last || ''}` : <i>No Name</i>}{''}
 						{favorite && <span>*</span>}
-					</Link>
+					</NavLink>
 				</li>
 			))}
 		</ul>

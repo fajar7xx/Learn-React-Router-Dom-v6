@@ -58,7 +58,7 @@ export const contactService = {
 		return contact;
 	},
 
-	delete: async () => {
+	delete: async (id) => {
 		const contacts = await localforage.getItem(STORAGE_KEY);
 		const index = contacts.findIndex(contact => contact.id === id);
 

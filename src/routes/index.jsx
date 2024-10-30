@@ -6,6 +6,7 @@ import { contactService } from '../services/contact';
 
 const Contact = lazy(() => import('../pages/Contact'));
 const ContactEdit = lazy(() => import('../pages/Contact/edit'));
+const ContactDetail = lazy(() => import('../pages/Contact/detail'));
 
 // loader
 export const rootLoader = async () => {
@@ -31,6 +32,13 @@ export const editContactAction = async ({ request, params }) => {
 	return redirect(`/contacts/${params.contactId}`);
 };
 
+export const destroyContactAction = async ({ params }) => {
+	// throw new Error("oh my god")
+	console.info(`destroy contact ${params.contactId}`);
+	await contactService.delete(params.contactId);
+	return redirect('/');
+};
+
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -40,8 +48,12 @@ const router = createBrowserRouter([
 		action: rootAction,
 		children: [
 			{
+				index: true,
+				element: <Contact />
+			},
+			{
 				path: 'contacts/:contactId',
-				element: <Contact />,
+				element: <ContactDetail />,
 				loader: contactLoader
 			},
 			{
@@ -49,6 +61,11 @@ const router = createBrowserRouter([
 				element: <ContactEdit />,
 				loader: contactLoader,
 				action: editContactAction
+			},
+			{
+				path: 'contacts/:contactId/destroy',
+				action: destroyContactAction,
+				errorElement: <div>Oops! There was an error.</div>
 			}
 		]
 	}
