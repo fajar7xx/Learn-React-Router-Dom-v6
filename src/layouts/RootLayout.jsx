@@ -1,7 +1,7 @@
 // global layout
 import { Form, Link, Outlet, useLoaderData, useNavigation, useSubmit } from 'react-router-dom';
 import ContactList from '../pages/Contact/components/ContactList';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 
 const Root = () => {
@@ -15,18 +15,37 @@ const Root = () => {
 		document.getElementById('q').value = searchQuery;
 	}, [searchQuery]);
 
-	const debounceSubmit = debounce((form) => {
-		submit(form);
-	}, 500);
+	const debounceSubmit = useCallback(
+		debounce((form) => {
+			submit(form);
+		}, 500),
+		[submit]
+	);
 
-	const handleSearch = (e) => {
+	const handleSearch = useCallback((e) => {
+		console.log('menjalankan handleserach dengan usecallback');
 		const value = e.target.value;
 		setSearchText(value);
 
-		if (value >= 3) {
-			debounceSubmit(e.currentTarget.form);
+		const form = e.currentTarget.form;
+
+		const submitForm = () => {
+			if(form){
+				debounceSubmit(form);
+			}
+		};
+
+		if (value.length >= 3) {
+			setTimeout(submitForm, 500);
+		} else if (value.length === 0) {
+			setTimeout(submitForm, 200);
 		}
-	};
+	}, [debounceSubmit]);
+
+	const searching = navigation.location &&
+		new URLSearchParams(navigation.location.search).has(
+			'q'
+		);
 
 	return (
 		<>
@@ -43,6 +62,7 @@ const Root = () => {
 							aria-label="Search contacts"
 							placeholder="Search"
 							type="search"
+							className={searching ? 'loading' : ''}
 							name="q"
 							value={searchText}
 							onChange={handleSearch}
@@ -50,7 +70,7 @@ const Root = () => {
 						<div
 							id="search-spinner"
 							aria-hidden
-							hidden={true}
+							hidden={!searching}
 						/>
 						<div
 							className="sr-only"

@@ -25,7 +25,21 @@ export const rootAction = async () => {
 
 export const contactLoader = async ({ params }) => {
 	const contact = await contactService.getById(params.contactId);
+	if (!contact) {
+		throw new Response('', {
+			status: 404,
+			statusText: 'Not Found'
+		});
+	}
 	return { contact };
+};
+
+export const contactAction = async ({ request, params }) => {
+	console.log('jalankan update favorite');
+	const formData = await request.formData();
+	return contactService.update(params.contactId, {
+		favorite: formData.get('favorite') === 'true'
+	});
 };
 
 export const editContactAction = async ({ request, params }) => {
@@ -51,24 +65,30 @@ const router = createBrowserRouter([
 		action: rootAction,
 		children: [
 			{
-				index: true,
-				element: <Contact />
-			},
-			{
-				path: 'contacts/:contactId',
-				element: <ContactDetail />,
-				loader: contactLoader
-			},
-			{
-				path: 'contacts/:contactId/edit',
-				element: <ContactEdit />,
-				loader: contactLoader,
-				action: editContactAction
-			},
-			{
-				path: 'contacts/:contactId/destroy',
-				action: destroyContactAction,
-				errorElement: <div>Oops! There was an error.</div>
+				errorElement: <NotFound />,
+				children: [
+					{
+						index: true,
+						element: <Contact />
+					},
+					{
+						path: 'contacts/:contactId',
+						element: <ContactDetail />,
+						loader: contactLoader,
+						action: contactAction
+					},
+					{
+						path: 'contacts/:contactId/edit',
+						element: <ContactEdit />,
+						loader: contactLoader,
+						action: editContactAction
+					},
+					{
+						path: 'contacts/:contactId/destroy',
+						action: destroyContactAction,
+						errorElement: <div>Oops! There was an error.</div>
+					}
+				]
 			}
 		]
 	}

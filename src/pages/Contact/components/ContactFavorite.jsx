@@ -1,24 +1,29 @@
-import { Form } from 'react-router-dom';
+import { Form, useFetcher } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const ContactFavorite = ({contact}) => {
+const ContactFavorite = ({ contact }) => {
 	console.log('contact', contact);
-	const favorite = contact.favorite;
+	// const favorite = contact.favorite;
+	const fetcher = useFetcher();
 
-	return(
-		<Form method='POST'>
+	const favorite = fetcher.formData
+		? fetcher.formData.get('favorite') === 'true'
+		: contact.favorite;
+
+	return (
+		<fetcher.Form method="POST">
 			<button
-				name='favorite'
+				name="favorite"
 				value={favorite ? 'false' : 'true'}
 				aria-label={
-				favorite
-					? 'Remove from favorites'
-					: 'Add to favorites'
+					favorite
+						? 'Remove from favorites'
+						: 'Add to favorites'
 				}
 			>
 				{favorite ? '★' : '☆'}
 			</button>
-		</Form>
+		</fetcher.Form>
 	);
 };
 
